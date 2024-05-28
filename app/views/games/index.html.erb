@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games</title>
+    <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+    <div class="container">
+        <center><h1>Games</h1></center>
+        <%= form_with(url: games_path, method: "post") do |form| %>
+        <%= label_tag(:player1_name, "Player 1 Name:") %>
+        <%= text_field_tag(:player1_name) %>
+        <br>
+        <%= label_tag(:player2_name, "Player 2 Name:") %>
+        <%= text_field_tag(:player2_name) %>
+        <br>
+        <!-- Add hidden fields for symbols -->
+        <%= hidden_field_tag(:player1_symbol, 'X') %>
+        <%= hidden_field_tag(:player2_symbol, 'O') %>
+        <br>
+        <%= form.submit "Create Game", class: "btn btn-primary" %>
+        <% end %>
+    </div>
+    </body>
+</html>

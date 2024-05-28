@@ -1,0 +1,43 @@
+<div class="container">
+  <% if game.player1_name.blank? || game.player2_name.blank? %>
+    <h2>Enter Player Names</h2>
+    <%= form_with(url: game_path(game), method: "patch") do |form| %>
+      <%= label_tag(:player1_name, "Player 1 Name:") %>
+      <%= text_field_tag(:player1_name, game.player1_name) %>
+      <br>
+      <%= label_tag(:player2_name, "Player 2 Name:") %>
+      <%= text_field_tag(:player2_name, game.player2_name) %>
+      <br>
+      <%= form.submit "Start Game", class: "btn btn-primary" %>
+    <% end %>
+  <% else %>
+    <div class="game-board">
+      <% 3.times do |row| %>
+        <div class="row">
+          <% 3.times do |col| %>
+            <span class="cell">
+              <% if game[row,col].nil? %>
+                <%= button_to game.current_symbol, game_moves_path(game), params: {row: row, col: col}, method: :post %>
+              <% else %>
+                <%= game[row,col] %>
+              <% end %>
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+      <br><br>
+      <%= button_to "End Turn", end_turn_game_path(game), method: :post, class: "btn btn-primary end-btn" %>
+    </div>
+    <br>
+    <% if game.finished? %> <!-- Checks if the game is finished -->
+      <center>
+        <% if game.winner %> <!-- Checks if there's a winner -->
+          Game Over
+        <% else %>
+          It's a draw! <!-- Displays if there's no winner -->
+          <%= link_to 'Back', root_path %> <!-- Provides a link to go back to the root path -->
+        <% end %>
+      </center>
+    <% end %> <!-- End of the outer if block -->
+  <%end%>
+</div>
